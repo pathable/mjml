@@ -35,12 +35,14 @@ class Component {
       context = {},
       props = {},
       globalAttributes = {},
+      userContext,
     } = initialDatas
 
     this.props = {
       ...props,
       children,
       content,
+      userContext,
     }
 
     this.attributes = formatAttributes({
@@ -60,7 +62,9 @@ class Component {
   getAttribute(name) {
     return this.attributes[name]
   }
-
+  getUserContent() {
+    return this.props.userContext
+  }
   getContent() {
     return this.props.content.trim()
   }
@@ -198,6 +202,7 @@ export class BodyComponent extends Component {
       const component = initComponent({
         name: children.tagName,
         initialDatas: {
+          userContext: this.props.userContext,
           ...children,
           attributes: {
             ...attributes,
@@ -239,6 +244,7 @@ export class HeadComponent extends Component {
         name: children.tagName,
         initialDatas: {
           ...children,
+          userContext: this.props.userContext,
           context: this.getChildContext(),
         },
       })
